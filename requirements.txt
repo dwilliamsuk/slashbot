@@ -1,0 +1,5 @@
+Flask-Discord-Interactions==0.1.12
+Flask==1.1.2
+requests==2.24.0
+gunicorn==20.0.4
+rule34==1.8.1
