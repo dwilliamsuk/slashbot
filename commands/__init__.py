@@ -19,3 +19,4 @@ from .ping import ping
 from .bin import bin
 from .fortune import fortune
 from .changelog import changelog
+from .currency import currency
