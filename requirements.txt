@@ -1,4 +1,4 @@
-Flask-Discord-Interactions==0.1.12
+Flask-Discord-Interactions==1.0.3
 Flask==1.1.2
 requests==2.24.0
 gunicorn==20.0.4
