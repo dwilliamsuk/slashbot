@@ -1,9 +1,9 @@
 ## Discord Slash Command Required Imports
-from flask_discord_interactions.context import Member
 from main import discord
 from main import logger
 from flask_discord_interactions import (Response,
-                                        CommandOptionType)
+                                        CommandOptionType,
+                                        Member)
 
 ## Define the command and parameter(s) it requires
 @discord.command(options=[{
