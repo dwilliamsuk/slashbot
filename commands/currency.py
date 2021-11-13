@@ -25,6 +25,7 @@ class Currencies(enum.Enum):
     CNY = "CNY"
     JPY = "JPY"
     CHF = "CHF"
+    TRY = "TRY"
 
 uri = "https://www.mastercard.co.uk"
 
