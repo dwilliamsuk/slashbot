@@ -23,7 +23,6 @@ class Units(enum.Enum):
 def temperature(ctx, amount: float,  input: Units, output: Units):
     convoutput = Q(amount, input).to(output).magnitude
 
-    convoutput = '{:.4f}'.format(convoutput)
     return Response(embed={
             "title": f"Unit Conversion",
             "description": f"{amount} {Units(input).name} --> {convoutput} {Units(output).name}"
