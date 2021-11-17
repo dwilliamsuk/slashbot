@@ -18,5 +18,4 @@ from .w3w import w3w
 from .ping import ping
 from .bin import bin
 from .fortune import fortune
-from .changelog import changelog
-from .currency import currency
+import commands.convert
