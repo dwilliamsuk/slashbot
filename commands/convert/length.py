@@ -19,6 +19,7 @@ class Units(enum.Enum):
     Yard = "yard"
     Mile = "mile"
     Kilometre = "kilometer"
+    LightYear = "lightyear"
 
 class Plurals(enum.Enum):
     Metre = "meters"
@@ -29,6 +30,7 @@ class Plurals(enum.Enum):
     Yard = "yards"
     Mile = "miles"
     Kilometre = "kilometers"
+    LightYear = "lightyears"
 
 
 @convert.command(annotations={"amount": "Amount to convert", "input": "Input Length", "output": "Output Length"})
