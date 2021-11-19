@@ -16,7 +16,7 @@ class Units(enum.Enum):
     Milligram = "milligram"
     Ounce = "ounce"
     Pound = "pound"
-    Tonne = "metric_ton"
+    Tonne = "tonne"
 
 
 class Plurals(enum.Enum):
