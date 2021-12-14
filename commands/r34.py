@@ -9,6 +9,7 @@ import json
 ## !!
 ## This command is still in development and will not have any explanations, 
 ## I am waiting on discord to implement more channel info so I can check if the channel is marked NSFW.
+## NEEDS THREADING IF EVER COMPLETED
 ## !!
 
 ## Define the command and parameter(s) it requires

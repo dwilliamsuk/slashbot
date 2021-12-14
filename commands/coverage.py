@@ -108,7 +108,4 @@ def coverage(ctx, postcode):
 
 
     ## This is the initial response sent to discord and prevents the command from timing out
-    return Response(embed={
-                "title": "Thinking...",
-                "description": "Getting Coverage...",
-                })
+    return Response(deferred=True)

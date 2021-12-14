@@ -3,6 +3,7 @@ from main import logger
 from flask_discord_interactions import (Response,
                                         CommandOptionType)
 from .convert import convert
+import threading
 
 from pint import UnitRegistry
 import enum
@@ -36,15 +37,22 @@ class Plurals(enum.Enum):
 @convert.command(annotations={"amount": "Amount to convert", "input": "Input Length", "output": "Output Length"})
 def length(ctx, amount: float,  input: Units, output: Units):
 
-    convoutput = Q(amount, input).to(output).magnitude
 
-    inputname = Plurals[Units(input).name].value
-    outputname = Plurals[Units(output).name].value
+    def command(amount: float, input: Units, output: Units):
+        convoutput = Q(amount, input).to(output).magnitude
 
-    if amount <= 1: inputname = inputname = input
-    if convoutput <= 1: outputname = outputname = output
+        inputname = Plurals[Units(input).name].value
+        outputname = Plurals[Units(output).name].value
 
-    return Response(embed={
-            "title": f"Unit Conversion",
-            "description": f"{amount} {inputname} --> {convoutput} {outputname}"
-            })
+        if amount <= 1: inputname = inputname = input
+        if convoutput <= 1: outputname = outputname = output
+
+        ctx.send(Response(embed={
+                "title": f"Unit Conversion",
+                "description": f"{amount} {inputname} --> {convoutput} {outputname}"
+                }))
+
+    thread = threading.Thread(target=command, args=[amount, input, output])
+    thread.start()
+
+    return Response(deferred=True)

@@ -4,6 +4,7 @@ from main import logger
 from flask_discord_interactions import (Response,
                                         CommandOptionType,
                                         Member)
+import threading
 
 ## Define the command and parameter(s) it requires
 @discord.command(options=[{
@@ -15,8 +16,15 @@ from flask_discord_interactions import (Response,
 def avatar(ctx, user: Member):
     "View a Users Avatar"
     logger.info(f"/avatar ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{user.id}'")
-    return Response(
-        embed={
-        "title": f"{user.username}'s Avatar",
-        "image": {"url": f"{user.avatar_url}?size=512"}
-    })
+
+    def command(user: Member):
+        ctx.send(Response(
+            embed={
+            "title": f"{user.username}'s Avatar",
+            "image": {"url": f"{user.avatar_url}?size=512"}
+        }))
+    
+    thread = threading.Thread(target=command, args=[user])
+    thread.start()
+
+    return Response(deferred=True)

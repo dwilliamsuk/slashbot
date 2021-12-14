@@ -3,6 +3,7 @@ from main import logger
 from flask_discord_interactions import (Response,
                                         CommandOptionType)
 from .convert import convert
+import threading
 
 from pint import UnitRegistry
 import enum
@@ -21,9 +22,16 @@ class Units(enum.Enum):
 
 @convert.command(annotations={"amount": "Amount to convert", "input": "Input Temperature", "output": "Output Temperature"})
 def temperature(ctx, amount: float,  input: Units, output: Units):
-    convoutput = Q(amount, input).to(output).magnitude
 
-    return Response(embed={
-            "title": f"Unit Conversion",
-            "description": f"{amount} {Units(input).name} --> {convoutput} {Units(output).name}"
-            })
+    def command(amount: float, input: Units, output: Units):
+        convoutput = Q(amount, input).to(output).magnitude
+
+        ctx.send(Response(embed={
+                "title": f"Unit Conversion",
+                "description": f"{amount} {Units(input).name} --> {convoutput} {Units(output).name}"
+                }))
+    
+    thread = threading.Thread(target=command, args=[amount, input, output])
+    thread.start()
+
+    return Response(deferred=True)

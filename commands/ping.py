@@ -4,6 +4,8 @@ from main import logger
 from flask_discord_interactions import (Response,
                                         CommandOptionType)
 
+## Thought it'd be worth to put it here, ping command does not get threading treatment because I want SPEED
+
 @discord.command()
 def ping(ctx):
     "Ping Command"

@@ -6,6 +6,7 @@ from flask_discord_interactions import (Response,
                                         Button,
                                         ButtonStyles)
 from main import logger
+import threading
 
 ## Image search function
 def quacksearch(query, num=0):
@@ -27,49 +28,56 @@ def quacksearch(query, num=0):
 def image(ctx, query):
     "Image Search using DuckDuckGo"
     logger.info(f"/image ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{query}'")
-    ## Error checking if response is invalid
-    num = 0
-    searchres = quacksearch(query, num)
-    if searchres == False:
-        return Response(embed={
-            "title": "Error",
-            "description": "Unable to process request, please try again later"
-        })
-    ## If all is good send the image search result
-    return Response(embed={
-        "title": "Image Search Results",
-        "description": '"'+query+'"',
-        "image": {"url": searchres}
-        },
-        components=[
-            ActionRow(components=[
-                Button(
-                    style=ButtonStyles.PRIMARY,
-                    custom_id=[handle_back, query, num],
-                    emoji={
-                        "id": "848383585962819585",
-                        "name": "Back"
-                    }
-                ),
-                Button(
-                    style=ButtonStyles.PRIMARY,
-                    custom_id=[handle_fwd, query, num],
-                    emoji={
-                        "id": "848383585374830623",
-                        "name": "Forward"
-                    }
-                ),
-                Button(
-                    style=ButtonStyles.PRIMARY,
-                    custom_id=[handle_rand, query, num],
-                    emoji={
-                        "id": "848380144338993174",
-                        "name": "Random"
-                    }
-                )
-            ])
-        ]
-    )
+
+    def command(query):
+        ## Error checking if response is invalid
+        num = 0
+        searchres = quacksearch(query, num)
+        if searchres == False:
+            ctx.send(Response(embed={
+                "title": "Error",
+                "description": "Unable to process request, please try again later"
+            }))
+        ## If all is good send the image search result
+        ctx.send(Response(embed={
+            "title": "Image Search Results",
+            "description": '"'+query+'"',
+            "image": {"url": searchres}
+            },
+            components=[
+                ActionRow(components=[
+                    Button(
+                        style=ButtonStyles.PRIMARY,
+                        custom_id=[handle_back, query, num],
+                        emoji={
+                            "id": "848383585962819585",
+                            "name": "Back"
+                        }
+                    ),
+                    Button(
+                        style=ButtonStyles.PRIMARY,
+                        custom_id=[handle_fwd, query, num],
+                        emoji={
+                            "id": "848383585374830623",
+                            "name": "Forward"
+                        }
+                    ),
+                    Button(
+                        style=ButtonStyles.PRIMARY,
+                        custom_id=[handle_rand, query, num],
+                        emoji={
+                            "id": "848380144338993174",
+                            "name": "Random"
+                        }
+                    )
+                ])
+            ]
+        ))
+
+    thread = threading.Thread(target=command, args=[query])
+    thread.start()
+
+    return Response(deferred=True)
 
 @discord.custom_handler()
 def handle_fwd(ctx, query, num: int):
