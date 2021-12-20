@@ -15,7 +15,7 @@ def quacksearch(query, num=0):
     searchres = quack.search(query)
     if searchres == 'Err' or not searchres:
         return False
-    return searchres[num]['thumbnail']
+    return searchres[num]
 
 ## Define the command and parameter(s) it requires
 @discord.command(options=[{
@@ -41,8 +41,8 @@ def image(ctx, query):
         ## If all is good send the image search result
         ctx.send(Response(embed={
             "title": "Image Search Results",
-            "description": '"'+query+'"',
-            "image": {"url": searchres}
+            "description": f"[{searchres['title']}]({searchres['url']})",
+            "image": {"url": searchres['thumbnail']}
             },
             components=[
                 ActionRow(components=[
@@ -83,11 +83,12 @@ def image(ctx, query):
 def handle_fwd(ctx, query, num: int):
     num = num+1
     if num > 100: num = 0
+    searchres = quacksearch(query, num)
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": '"'+query+'"',
-        "image": {"url": quacksearch(query, num)}
+        "description": f"[{searchres['title']}]({searchres['url']})",
+        "image": {"url": searchres['thumbnail']}
     },
     components=[
             ActionRow(components=[
@@ -124,11 +125,12 @@ def handle_back(ctx, query, num: int):
     num = num-1
     if num < 0 or num > 100: num = 0
     a = quacksearch(query, num)
+    searchres = quacksearch(query, num)
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": '"'+query+'"',
-        "image": {"url": a}
+        "description": f"[{searchres['title']}]({searchres['url']})",
+        "image": {"url": searchres['thumbnail']}
     },
     components=[
             ActionRow(components=[
@@ -165,11 +167,12 @@ def handle_rand(ctx, query, num: int):
     import random
     num = num+random.randint(0, 10)
     if num > 100: num = 0
+    searchres = quacksearch(query, num)
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": '"'+query+'"',
-        "image": {"url": quacksearch(query, num)}
+        "description": f"[{searchres['title']}]({searchres['url']})",
+        "image": {"url": searchres['thumbnail']}
     },
     components=[
             ActionRow(components=[
