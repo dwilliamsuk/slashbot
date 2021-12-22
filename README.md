@@ -2,4 +2,5 @@
 
 Slash Command discord bot
 
-I'll be making docs on how to run the bot on your own instance for testing soon.
+## Running SlashBot
+For instructions on running SlashBot visit [the wiki.](https://github.com/TheJaffaMeme/slashbot/wiki/Basic-Setup)
