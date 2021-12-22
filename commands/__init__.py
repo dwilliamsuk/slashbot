@@ -18,4 +18,5 @@ from .w3w import w3w
 from .ping import ping
 from .bin import bin
 from .fortune import fortune
+from .coinflip import coinflip
 import commands.convert
