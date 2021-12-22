@@ -17,7 +17,7 @@ def invite(ctx):
                     "name": "SlashBot",
                     "icon_url": "https://cdn.discordapp.com/app-icons/818189563536343081/6a04d974b41fa3ce18e87ef71dd4b5b9.png?size=256"
                 },
-                "description": "You can invite me by [clicking hither](https://discord.com/api/oauth2/authorize?client_id=828301046207741974&scope=applications.commands)",
+                "description": "You can invite me by [clicking here](https://discord.com/api/oauth2/authorize?client_id=828301046207741974&scope=applications.commands)",
                 }))
     
     thread = threading.Thread(target=command)

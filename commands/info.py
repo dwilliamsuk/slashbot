@@ -19,20 +19,8 @@ def info(ctx):
                 },
                 "fields": [
                     {
-                        "name": "What?",
-                        "value": "SlashBot is a bot that uses the new discord slash commands stuffs that aims to be a sort of swiss army knife bot"
-                    },
-                    {
-                        "name": "Why?!",
-                        "value": "NotSoBot was wank and I liked the image commands to terror people"
-                    },
-                    {
-                        "name": "Where?!?!?!?!",
-                        "value": "SlashBot runs off Google Cloud Run"
-                    },
-                    {
-                        "name": "WHOMST?!?!?!?!",
-                        "value": "https://github.com/TheJaffaMeme"
+                        "name": "Info",
+                        "value": "See https://github.com/TheJaffaMeme/slashbot for more information"
                     },
                 ],
                 }))
