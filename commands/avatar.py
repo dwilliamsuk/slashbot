@@ -23,6 +23,7 @@ def avatar(ctx, user: Member):
             "title": f"{user.username}'s Avatar",
             "image": {"url": f"{user.avatar_url}?size=512"}
         }))
+        return
     
     thread = threading.Thread(target=command, args=[user])
     thread.start()

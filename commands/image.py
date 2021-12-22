@@ -38,6 +38,7 @@ def image(ctx, query):
                 "title": "Error",
                 "description": "Unable to process request, please try again later"
             }))
+            return
         ## If all is good send the image search result
         ctx.send(Response(embed={
             "title": "Image Search Results",
@@ -73,6 +74,7 @@ def image(ctx, query):
                 ])
             ]
         ))
+        return
 
     thread = threading.Thread(target=command, args=[query])
     thread.start()

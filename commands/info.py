@@ -24,6 +24,7 @@ def info(ctx):
                     },
                 ],
                 }))
+        return
     
     thread = threading.Thread(target=command)
     thread.start()

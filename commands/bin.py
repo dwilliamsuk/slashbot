@@ -19,6 +19,7 @@ def bin(ctx):
             embed={
             "image": {"url": f"https://cloudflare-ipfs.com/ipfs/QmPet28MXQbj32LPWc4EC3a8RybFp4568458sGA1fdyCed/binimages/{binnum}.jpg"}
         }))
+        return
 
     thread = threading.Thread(target=command)
     thread.start()

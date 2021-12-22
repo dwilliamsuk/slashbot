@@ -21,6 +21,7 @@ def coinflip(ctx):
                 "url": coin[0]
             }
                 }))
+        return
     
     thread = threading.Thread(target=command)
     thread.start()

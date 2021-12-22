@@ -44,12 +44,14 @@ def random(ctx, fact):
                 "title": "Error",
                 "description": "Unable to process request, please try again later"
             }))
+            return
         ## If all is good send response to discord
         ctx.send(Response(embed={
             "title": embedtitle,
             "description": '``'+response.json()['text']+'``',
             "url": response.json()['permalink']
             }))
+        return
     
     thread = threading.Thread(target=command, args=[fact])
     thread.start()

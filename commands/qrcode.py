@@ -25,6 +25,7 @@ def qrcode(ctx, input):
                 "url": f"https://quickchart.io/qr?light=ffffffff&dark=000000&ecLevel=H&margin=1&size=512&text={input_encoded}"
             }
         })))
+        return
 
     thread = threading.Thread(target=command, args=[input])
     thread.start()

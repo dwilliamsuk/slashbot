@@ -18,10 +18,12 @@ def fox(ctx):
         response = requests.request("GET", ENDPOINT)
         if response.status_code != 200:
             ctx.send(Response(embed={"title": "Error!", "description": "Fox bit the cables. Try again later."}))
+            return
         jsonresp = response.json()
         ctx.send(Response(embed={
             "image": {"url": f"{jsonresp['image']}"}
         }))
+        return
 
     thread = threading.Thread(target=command)
     thread.start()

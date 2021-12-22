@@ -24,6 +24,7 @@ def bonk(ctx, user):
             "title": "B O N K",
             "image": {"url": "https://media1.tenor.com/images/ae34b2d6cbac150bfddf05133a0d8337/tenor.gif?itemid=14889944"}
         }))
+        return
 
     thread = threading.Thread(target=command, args=[user])
     thread.start()

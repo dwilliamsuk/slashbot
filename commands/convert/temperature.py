@@ -30,6 +30,7 @@ def temperature(ctx, amount: float,  input: Units, output: Units):
                 "title": f"Unit Conversion",
                 "description": f"{amount} {Units(input).name} --> {convoutput} {Units(output).name}"
                 }))
+        return
     
     thread = threading.Thread(target=command, args=[amount, input, output])
     thread.start()

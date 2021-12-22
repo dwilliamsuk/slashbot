@@ -37,6 +37,7 @@ def weather(ctx, city, country=''):
                 "title": "Nice Try",
                 "url": "https://cdn.discordapp.com/attachments/820398852992401468/822894568709947392/oi.mp4"
             }))
+            return
         url = f"{baseurl}{city},{country}"
         response = requests.request("GET", url)
         rjson = response.json()
@@ -46,6 +47,7 @@ def weather(ctx, city, country=''):
                 "title": "Error",
                 "description": rjson['message'].capitalize()
             }))
+            return
         ## If all is good send response
         ctx.send(Response(embed={
                 "title": f"{rjson['name']}, {rjson['sys']['country']}",
@@ -71,6 +73,7 @@ def weather(ctx, city, country=''):
                     },
                 ]
             }))
+        return
         
     thread = threading.Thread(target=command, args=[city, country])
     thread.start()

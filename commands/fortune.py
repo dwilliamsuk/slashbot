@@ -18,11 +18,13 @@ def fortune(ctx):
         response = requests.request("GET", ENDPOINT)
         if response.status_code != 200:
             ctx.send(Response(embed={"title": "Error!", "description": "Ran out of fortune cookies!"}))
+            return
         jsonresp = response.json()
         ctx.send(Response(embed={
             "title": "You crack open your fortune cookie and find within...",
             "description": f"\"{jsonresp['slip']['advice']}\""
         }))
+        return
 
     thread = threading.Thread(target=command)
     thread.start()

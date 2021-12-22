@@ -17,10 +17,12 @@ def cat(ctx):
         response = requests.request("GET", ENDPOINT)
         if response.status_code != 200:
             ctx.send(Response(embed={"title": "Error!", "description": "Cat bit the cables. Try again later."}))
+            return
         jsonresp = response.json()
         ctx.send(Response(embed={
             "image": {"url": f"{BASEURL}{jsonresp['url']}"}
         }))
+        return
 
     thread = threading.Thread(target=command)
     thread.start()

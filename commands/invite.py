@@ -19,6 +19,7 @@ def invite(ctx):
                 },
                 "description": "You can invite me by [clicking here](https://discord.com/api/oauth2/authorize?client_id=828301046207741974&scope=applications.commands)",
                 }))
+        return
     
     thread = threading.Thread(target=command)
     thread.start()

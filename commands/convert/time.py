@@ -54,6 +54,7 @@ def time(ctx, amount: float,  input: Units, output: Units):
                 "title": f"Unit Conversion",
                 "description": f"{amount} {inputname} --> {convoutput} {outputname}"
                 }))
+        return
     
     thread = threading.Thread(target=command, args=[amount, input, output])
     thread.start()

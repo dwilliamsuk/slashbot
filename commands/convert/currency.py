@@ -40,8 +40,10 @@ def currency(ctx, amount: float,  input: Currencies, output: Currencies):
         logger.info(f"/currency ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{amount}, {input}, {output}'")
         if amount < 0.01:
             ctx.send(Response(f"Error! Cannot convert anything less than 0.01", ephemeral=True))
+            return
         if input == output:
             ctx.send(Response(f"{input} = {output} surprisingly enough", ephemeral=True))
+            return
         def convertcurrency(amount: Decimal, input, output):
             req = f"{uri}/settlement/currencyrate/fxDate=0000-00-00;transCurr={input};crdhldBillCurr={output};bankFee=0;transAmt={amount}/conversion-rate"
             headers = {"referer": "https://www.mastercard.co.uk/en-gb/personal/get-support/convert-currency.html"}
@@ -53,6 +55,7 @@ def currency(ctx, amount: float,  input: Currencies, output: Currencies):
         conversion = convertcurrency(amount, input, output)
         if conversion == False:
             ctx.send(Response(f"Error! Unable to get conversion rate. Please try again later.", ephemeral=True))
+            return
         convamount = Decimal(conversion['data']['transAmt']).quantize(cents, ROUND_HALF_UP)
         outputamount = Decimal(conversion['data']['crdhldBillAmt']).quantize(cents, ROUND_HALF_UP)
         conversionrate = conversion['data']['conversionRate']
@@ -66,6 +69,7 @@ def currency(ctx, amount: float,  input: Currencies, output: Currencies):
                 },
                 "timestamp": lastupdate
                 }))
+        return
 
     thread = threading.Thread(target=command, args=[amount, input, output])
     thread.start()
