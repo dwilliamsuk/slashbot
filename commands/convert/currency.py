@@ -27,10 +27,8 @@ class Currencies(enum.Enum):
     MYD = "MYD"
     CNY = "CNY"
     JPY = "JPY"
-    CHF = "CHF"
     TRY = "TRY"
     RUB = "RUB"
-    TRY = "TRY"
 
 uri = "https://www.mastercard.co.uk"
 
