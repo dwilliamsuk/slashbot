@@ -23,11 +23,14 @@ class Currencies(enum.Enum):
     BGN = "BGN"
     RSD = "RSD"
     INR = "INR"
+    IDR = "IDR"
+    MYD = "MYD"
     CNY = "CNY"
     JPY = "JPY"
     CHF = "CHF"
     TRY = "TRY"
     RUB = "RUB"
+    TRY = "TRY"
 
 uri = "https://www.mastercard.co.uk"
 
