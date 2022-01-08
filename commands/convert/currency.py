@@ -21,6 +21,7 @@ class Currencies(enum.Enum):
     AED = "AED"
     MAD = "MAD"
     BGN = "BGN"
+    HRK = "HRK"
     RSD = "RSD"
     INR = "INR"
     IDR = "IDR"
