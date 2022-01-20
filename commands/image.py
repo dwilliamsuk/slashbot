@@ -42,7 +42,7 @@ def image(ctx, query):
         ## If all is good send the image search result
         ctx.send(Response(embed={
             "title": "Image Search Results",
-            "description": f"[{searchres['title']}]({searchres['url']})",
+            "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
             "image": {"url": searchres['thumbnail']}
             },
             components=[
@@ -89,7 +89,7 @@ def handle_fwd(ctx, query, num: int):
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": f"[{searchres['title']}]({searchres['url']})",
+        "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
         "image": {"url": searchres['thumbnail']}
     },
     components=[
@@ -131,7 +131,7 @@ def handle_back(ctx, query, num: int):
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": f"[{searchres['title']}]({searchres['url']})",
+        "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
         "image": {"url": searchres['thumbnail']}
     },
     components=[
@@ -173,7 +173,7 @@ def handle_rand(ctx, query, num: int):
     return Response(update=True,
     embed={
         "title": "Image Search Results",
-        "description": f"[{searchres['title']}]({searchres['url']})",
+        "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
         "image": {"url": searchres['thumbnail']}
     },
     components=[
