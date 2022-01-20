@@ -81,7 +81,7 @@ def image(ctx, query):
 
     return Response(deferred=True)
 
-@discord.custom_handler()
+@discord.custom_handler(custom_id='fwd-5f35-441a-b699-f0438ee24ab0')
 def handle_fwd(ctx, query, num: int):
     num = num+1
     if num > 100: num = 0
@@ -122,7 +122,7 @@ def handle_fwd(ctx, query, num: int):
         ]
     )
 
-@discord.custom_handler()
+@discord.custom_handler(custom_id='back-12d6-41f2-ade9-4970763bf595')
 def handle_back(ctx, query, num: int):
     num = num-1
     if num < 0 or num > 100: num = 0
@@ -164,7 +164,7 @@ def handle_back(ctx, query, num: int):
         ]
     )
 
-@discord.custom_handler()
+@discord.custom_handler(custom_id='rand-5ed9-465d-bd8a-87ce2c042836')
 def handle_rand(ctx, query, num: int):
     import random
     num = num+random.randint(0, 10)
