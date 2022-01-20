@@ -86,6 +86,12 @@ def handle_fwd(ctx, query, num: int):
     num = num+1
     if num > 100: num = 0
     searchres = quacksearch(query, num)
+    if searchres == False:
+            ctx.send(Response(embed={
+                "title": "Error",
+                "description": "Unable to Process Request, Please Try Again Later (Rate Limited)"
+            }))
+            return
     return Response(update=True,
     embed={
         "title": "Image Search Results",
@@ -126,8 +132,13 @@ def handle_fwd(ctx, query, num: int):
 def handle_back(ctx, query, num: int):
     num = num-1
     if num < 0 or num > 100: num = 0
-    a = quacksearch(query, num)
     searchres = quacksearch(query, num)
+    if searchres == False:
+            ctx.send(Response(embed={
+                "title": "Error",
+                "description": "Unable to Process Request, Please Try Again Later (Rate Limited)"
+            }))
+            return
     return Response(update=True,
     embed={
         "title": "Image Search Results",
@@ -170,6 +181,12 @@ def handle_rand(ctx, query, num: int):
     num = num+random.randint(0, 10)
     if num > 100: num = 0
     searchres = quacksearch(query, num)
+    if searchres == False:
+            ctx.send(Response(embed={
+                "title": "Error",
+                "description": "Unable to Process Request, Please Try Again Later (Rate Limited)"
+            }))
+            return
     return Response(update=True,
     embed={
         "title": "Image Search Results",
