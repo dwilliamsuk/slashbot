@@ -3,3 +3,4 @@ Flask==2.0.2
 requests==2.26.0
 gunicorn==20.1.0
 pint==0.18
+redis==4.1.1

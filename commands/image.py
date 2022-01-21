@@ -7,14 +7,36 @@ from flask_discord_interactions import (Response,
                                         ButtonStyles)
 from main import logger
 import threading
+import urllib
+import os
+import redis
+import json
+
+if os.environ["REDIS_CACHE"] == "True":
+    redisIP = os.environ["REDIS_IP"]
+    redisPort = os.environ["REDIS_PORT"]
+    redisAuth = os.environ["REDIS_AUTH"]
+    cacheDB = redis.Redis(host=redisIP, port=redisPort, password=redisAuth, db=0)
 
 ## Image search function
 def quacksearch(query, num=0):
     from commands.modules import duckimgsearch as quack
     query = str(query)
+    cleanQuery = urllib.parse.quote_plus(query)
+
+    if os.environ["REDIS_CACHE"] == "True":
+        databaseResponse = cacheDB.get(cleanQuery)
+        if databaseResponse != None:
+            databaseResponse = json.loads(databaseResponse.decode("utf-8"))
+            return databaseResponse[num]
+
     searchres = quack.search(query)
     if searchres == 'Err' or not searchres:
         return False
+
+    if os.environ["REDIS_CACHE"] == "True":
+        cacheDB.set(cleanQuery, json.dumps(searchres), ex=300)
+
     return searchres[num]
 
 ## Define the command and parameter(s) it requires
