@@ -17,3 +17,4 @@ from .bin import bin
 from .fortune import fortune
 from .coinflip import coinflip
 import commands.convert
+import commands.games
