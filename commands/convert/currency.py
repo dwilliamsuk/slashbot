@@ -48,7 +48,7 @@ def currency(ctx, amount: float,  input: Currencies, output: Currencies):
             ctx.send(Response(f"{input} = {output} surprisingly enough", ephemeral=True))
             return
         def convertcurrency(amount: Decimal, input, output):
-            req = f"{uri}/settlement/currencyrate/fxDate=0000-00-00;transCurr={input};crdhldBillCurr={output};bankFee=0;transAmt={amount}/conversion-rate"
+            req = f"{uri}/settlement/currencyrate/conversion-rate?fxDate=0000-00-00&transCurr={input}&crdhldBillCurr={output}&bankFee=0&transAmt={amount}/conversion-rate"
             headers = {"referer": "https://www.mastercard.co.uk/en-gb/personal/get-support/convert-currency.html"}
             resp = requests.request("GET", req, headers=headers)
             if resp.status_code == 200:
