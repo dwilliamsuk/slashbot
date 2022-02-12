@@ -16,5 +16,6 @@ from .ping import ping
 from .bin import bin
 from .fortune import fortune
 from .coinflip import coinflip
+from .translate import Translate
 import commands.convert
 import commands.games
