@@ -11,6 +11,7 @@ import urllib
 import os
 import redis
 import json
+from duckduckgo_search import ddg_images
 
 if os.environ["REDIS_CACHE"] == "True":
     redisIP = os.environ["REDIS_IP"]
@@ -20,7 +21,6 @@ if os.environ["REDIS_CACHE"] == "True":
 
 ## Image search function
 def quacksearch(query, num=0):
-    from commands.modules import duckimgsearch as quack
     query = str(query)
     cleanQuery = urllib.parse.quote_plus(query)
 
@@ -30,8 +30,8 @@ def quacksearch(query, num=0):
             databaseResponse = json.loads(databaseResponse.decode("utf-8"))
             return databaseResponse[num]
 
-    searchres = quack.search(query)
-    if searchres == 'Err' or not searchres:
+    searchres = ddg_images(keywords=query, safesearch='Off', max_results=100)
+    if len(searchres) == 0:
         return False
 
     if os.environ["REDIS_CACHE"] == "True":
@@ -65,7 +65,7 @@ def image(ctx, query):
         ctx.send(Response(embed={
             "title": "Image Search Results",
             "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
-            "image": {"url": searchres['thumbnail']}
+            "image": {"url": searchres['image']}
             },
             components=[
                 ActionRow(components=[
@@ -118,7 +118,7 @@ def handle_fwd(ctx, query, num: int):
     embed={
         "title": "Image Search Results",
         "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
-        "image": {"url": searchres['thumbnail']}
+        "image": {"url": searchres['image']}
     },
     components=[
             ActionRow(components=[
@@ -165,7 +165,7 @@ def handle_back(ctx, query, num: int):
     embed={
         "title": "Image Search Results",
         "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
-        "image": {"url": searchres['thumbnail']}
+        "image": {"url": searchres['image']}
     },
     components=[
             ActionRow(components=[
@@ -213,7 +213,7 @@ def handle_rand(ctx, query, num: int):
     embed={
         "title": "Image Search Results",
         "description": f"[{str(searchres['title'])}]({str(searchres['url'])})",
-        "image": {"url": searchres['thumbnail']}
+        "image": {"url": searchres['image']}
     },
     components=[
             ActionRow(components=[
