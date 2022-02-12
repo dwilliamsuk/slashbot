@@ -47,6 +47,14 @@ def Translate(ctx, msg):
             }))
             return
         
+        if 'error' in translation[0]:
+            ctx.send(Message(
+            embed={
+                "title": "Error",
+                "description": "Malformed Input."
+            }))
+            return
+
         detectedLanguage = translateLanguageNames[translation[0]['detected_language']]
         convertedTo = translateLanguageNames[convertTo]
 
@@ -70,4 +78,4 @@ def Translate(ctx, msg):
     thread = threading.Thread(target=command, args=[ctx, msg])
     thread.start()
 
-    return Message(deferred=True)
+    return Message(deferred=True, ephemeral=True)
