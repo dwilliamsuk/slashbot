@@ -45,7 +45,7 @@ def search(ctx, query):
                     topicName = topicName.replace('_', ' ')
                     topicText = topic['Result']
                     topicText = (topicText.split('</a>'))[-1]
-                    discordFields.append({"name": f"{topicName}","value": f"{topicText}"})
+                    discordFields.append({"name": f"{topicName}","value": f"[{topicName}]({topic['FirstURL']}), {topicText}"})
                 pass
             
             ctx.send(Message(
@@ -117,7 +117,7 @@ def Search(ctx, msg):
                     topicName = topicName.replace('_', ' ')
                     topicText = topic['Result']
                     topicText = (topicText.split('</a>'))[-1]
-                    discordFields.append({"name": f"{topicName}","value": f"{topicText}"})
+                    discordFields.append({"name": f"{topicName}","value": f"[{topicName}]({topic['FirstURL']}), {topicText}"})
                 pass
             
             ctx.send(Message(
