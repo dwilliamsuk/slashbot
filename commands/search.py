@@ -61,19 +61,20 @@ def search(ctx, query):
             return
 
         elif ddgResp['Type'] == 'A':
-            ctx.send(Message(
-            embed={
+            discordEmbed = {
                 "title": f"{ddgResp['AbstractSource']}",
                 "description": f"{ddgResp['AbstractText']}",
                 "url": ddgResp['AbstractURL'],
-                "thumbnail": {
-                    "url": f"https://duckduckgo.com{ddgResp['Image']}"
-                },
                 "footer": {
                     "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
                     "text": "Results from DuckDuckGo"
                 }
-            }))
+            }
+            
+            if ddgResp.get('Image'):
+                discordEmbed['thumbnail'] = {"url": f"https://duckduckgo.com{ddgResp['Image']}"}
+
+            ctx.send(Message(embed=discordEmbed))
             return
 
         else:
@@ -133,19 +134,20 @@ def Search(ctx, msg):
             return
 
         elif ddgResp['Type'] == 'A':
-            ctx.send(Message(
-            embed={
+            discordEmbed = {
                 "title": f"{ddgResp['AbstractSource']}",
                 "description": f"{ddgResp['AbstractText']}",
                 "url": ddgResp['AbstractURL'],
-                "thumbnail": {
-                    "url": f"https://duckduckgo.com{ddgResp['Image']}"
-                },
                 "footer": {
                     "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
                     "text": "Results from DuckDuckGo"
                 }
-            }))
+            }
+            
+            if ddgResp.get('Image'):
+                discordEmbed['thumbnail'] = {"url": f"https://duckduckgo.com{ddgResp['Image']}"}
+
+            ctx.send(Message(embed=discordEmbed))
             return
 
         else:
