@@ -1,0 +1,162 @@
+## Discord Slash Command Required Imports
+from main import discord
+from main import logger
+from flask_discord_interactions import (Message,
+                                        CommandOptionType,
+                                        ApplicationCommandType)
+import threading
+
+## Command Specific Imports
+import requests
+from urllib import parse
+
+
+@discord.command(options=[{
+    "name": "query",
+    "description": "What you would like to search for",
+    "type": CommandOptionType.STRING,
+    "required": True
+}])
+def search(ctx, query):
+    "Instant Answers using DuckDuckGo"
+    logger.info(f"/search ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{query}'")
+
+    def command(query):
+        safequery = parse.quote_plus(query)
+        uri = f"https://api.duckduckgo.com/?q={safequery}&format=json&pretty=0"
+
+        try:
+            response = requests.request("GET", uri)
+            ddgResp = response.json()
+        except Exception as e:
+            ctx.send(Message(
+                embed={
+                    "title": "Error",
+                    "description": "Unable to find any instant answers on that topic.",
+                }))
+            return
+        
+        if ddgResp['Type'] == 'D':
+            discordFields = []
+            for topic in ddgResp['RelatedTopics']:
+                if not topic.get('Name'):
+                    topicName = topic['FirstURL']
+                    topicName = (topicName.split('/', 3))[-1]
+                    topicName = topicName.replace('_', ' ')
+                    topicText = topic['Result']
+                    topicText = (topicText.split('</a>'))[-1]
+                    discordFields.append({"name": f"{topicName}","value": f"{topicText}"})
+                pass
+            
+            ctx.send(Message(
+                embed={
+                    "title": f"{ddgResp['AbstractSource']}",
+                    "url": ddgResp['AbstractURL'],
+                    "fields": discordFields,
+                    "footer": {
+                        "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
+                        "text": "Results from DuckDuckGo"
+                    }
+                }))
+            return
+
+        elif ddgResp['Type'] == 'A':
+            ctx.send(Message(
+            embed={
+                "title": f"{ddgResp['AbstractSource']}",
+                "description": f"{ddgResp['AbstractText']}",
+                "url": ddgResp['AbstractURL'],
+                "thumbnail": {
+                    "url": f"https://duckduckgo.com{ddgResp['Image']}"
+                },
+                "footer": {
+                    "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
+                    "text": "Results from DuckDuckGo"
+                }
+            }))
+            return
+
+        else:
+            ctx.send(Message(
+                embed={
+                    "title": "Error",
+                    "description": "Unable to find any instant answers on that topic.",
+                }))
+            return
+    
+    thread = threading.Thread(target=command, args=[query])
+    thread.start()
+
+    return Message(deferred=True)
+
+@discord.command(type=ApplicationCommandType.MESSAGE)
+def Search(ctx, msg):
+    logger.info(f"/search ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{msg.content}'")
+
+    def command(query):
+        safequery = parse.quote_plus(query)
+        uri = f"https://api.duckduckgo.com/?q={safequery}&format=json&pretty=0"
+
+        try:
+            response = requests.request("GET", uri)
+            ddgResp = response.json()
+        except Exception as e:
+            ctx.send(Message(
+                embed={
+                    "title": "Error",
+                    "description": "Unable to find any instant answers on that topic.",
+                }))
+            return
+        
+        if ddgResp['Type'] == 'D':
+            discordFields = []
+            for topic in ddgResp['RelatedTopics']:
+                if not topic.get('Name'):
+                    topicName = topic['FirstURL']
+                    topicName = (topicName.split('/', 3))[-1]
+                    topicName = topicName.replace('_', ' ')
+                    topicText = topic['Result']
+                    topicText = (topicText.split('</a>'))[-1]
+                    discordFields.append({"name": f"{topicName}","value": f"{topicText}"})
+                pass
+            
+            ctx.send(Message(
+                embed={
+                    "title": f"{ddgResp['AbstractSource']}",
+                    "url": ddgResp['AbstractURL'],
+                    "fields": discordFields,
+                    "footer": {
+                        "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
+                        "text": "Results from DuckDuckGo"
+                    }
+                }))
+            return
+
+        elif ddgResp['Type'] == 'A':
+            ctx.send(Message(
+            embed={
+                "title": f"{ddgResp['AbstractSource']}",
+                "description": f"{ddgResp['AbstractText']}",
+                "url": ddgResp['AbstractURL'],
+                "thumbnail": {
+                    "url": f"https://duckduckgo.com{ddgResp['Image']}"
+                },
+                "footer": {
+                    "icon_url": "https://pbs.twimg.com/profile_images/1452668733533601802/uSn3mxSe_400x400.jpg",
+                    "text": "Results from DuckDuckGo"
+                }
+            }))
+            return
+
+        else:
+            ctx.send(Message(
+                embed={
+                    "title": "Error",
+                    "description": "Unable to find any instant answers on that topic.",
+                }))
+            return
+    
+    thread = threading.Thread(target=command, args=[msg.content])
+    thread.start()
+
+    return Message(deferred=True)

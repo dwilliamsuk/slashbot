@@ -3,8 +3,10 @@ from main import discord
 from main import logger
 from flask_discord_interactions import (Response,
                                         CommandOptionType,
-                                        Member)
+                                        Member,
+                                        ApplicationCommandType)
 import threading
+import requests
 
 ## Define the command and parameter(s) it requires
 @discord.command(options=[{
@@ -18,10 +20,16 @@ def avatar(ctx, user: Member):
     logger.info(f"/avatar ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{user.id}'")
 
     def command(user: Member):
+        avatarURL = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar_hash}?size=512"
+
+        hasAvatarCheck = requests.head(avatarURL)
+        if hasAvatarCheck.status_code != 200:
+            avatarURL = f"https://cdn.discordapp.com/embed/avatars/{int(user.discriminator)%5}.png?size=512"
+        
         ctx.send(Response(
             embed={
             "title": f"{user.username}'s Avatar",
-            "image": {"url": f"{user.avatar_url}?size=512"}
+            "image": {"url": avatarURL}
         }))
         return
     
@@ -29,3 +37,27 @@ def avatar(ctx, user: Member):
     thread.start()
 
     return Response(deferred=True)
+
+@discord.command(type=ApplicationCommandType.USER)
+def Avatar(ctx, user):
+    logger.info(f"/avatar ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{user.id}'")
+
+    def command(user: Member):
+        avatarURL = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar_hash}?size=512"
+
+        hasAvatarCheck = requests.head(avatarURL)
+        if hasAvatarCheck.status_code != 200:
+            avatarURL = f"https://cdn.discordapp.com/embed/avatars/{int(user.discriminator)%5}.png?size=512"
+
+        ctx.send(Response(
+            embed={
+            "title": f"{user.username}'s Avatar",
+            "image": {"url": avatarURL}
+        }))
+        return
+    
+    thread = threading.Thread(target=command, args=[user])
+    thread.start()
+
+    return Response(deferred=True)
+
