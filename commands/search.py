@@ -72,7 +72,7 @@ def search(ctx, query):
     logger.info(f"/search ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{query}'")
 
     def command(query):
-        safequery = parse.quote_plus(query)
+        safequery = parse.quote(query)
         uri = f"https://api.duckduckgo.com/?q={safequery}&format=json&pretty=0"
 
         try:
@@ -93,12 +93,13 @@ def search(ctx, query):
             for topic in ddgResp['RelatedTopics']:
                 if not topic.get('Name'):
                     topicName = topic['FirstURL']
+                    topicName = parse.unquote(topicName)
                     topicName = (topicName.split('/', 3))[-1]
                     topicName = topicName.replace('_', ' ')
                     topicText = topic['Result']
                     topicText = (topicText.split('</a>'))[-1]
                     discordFields.append({"name": f"{topicName}","value": f"[{topicName}]({topic['FirstURL']}), {topicText}"})
-                    options.append(SelectMenuOption(label=topicName, value=((topic['FirstURL']).split('/', 3))[-1]))
+                    options.append(SelectMenuOption(label=topicName, value=(parse.unquote(((topic['FirstURL']).split('/', 3))[-1]))))
                 pass
             
             menu = SelectMenu(
@@ -156,7 +157,7 @@ def Search(ctx, msg):
     logger.info(f"/search ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) '{msg.content}'")
 
     def command(query):
-        safequery = parse.quote_plus(query)
+        safequery = parse.quote(query)
         uri = f"https://api.duckduckgo.com/?q={safequery}&format=json&pretty=0"
 
         try:
@@ -177,12 +178,13 @@ def Search(ctx, msg):
             for topic in ddgResp['RelatedTopics']:
                 if not topic.get('Name'):
                     topicName = topic['FirstURL']
+                    topicName = parse.unquote(topicName)
                     topicName = (topicName.split('/', 3))[-1]
                     topicName = topicName.replace('_', ' ')
                     topicText = topic['Result']
                     topicText = (topicText.split('</a>'))[-1]
                     discordFields.append({"name": f"{topicName}","value": f"[{topicName}]({topic['FirstURL']}), {topicText}"})
-                    options.append(SelectMenuOption(label=topicName, value=((topic['FirstURL']).split('/', 3))[-1]))
+                    options.append(SelectMenuOption(label=topicName, value=(parse.unquote(((topic['FirstURL']).split('/', 3))[-1]))))
                 pass
             
             menu = SelectMenu(
