@@ -291,7 +291,7 @@ def mainCommand(refresh=False, mapNumber=999, author=0):
 ## Define the command and parameter(s) it requires
 @games.command()
 def sokoban(ctx):
-    "sokoban"
+    "Sokoban is a puzzle video game in which the player pushes boxes around."
     logger.info(f"/sokoban ran by user '{ctx.author.id}' in guild '{ctx.guild_id}' with parameter(s) ''")
 
     def command():
