@@ -1,5 +1,4 @@
 ## Discord Slash Command Required Imports
-from sqlalchemy import column
 from main import logger
 from main import discord
 from flask_discord_interactions import (Message,
