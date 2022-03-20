@@ -12,11 +12,11 @@ import threading
 import json
 
 baseMap = [
-      ['🔳', '🔳', '🔳', '🔳', '🔳', '🔳'],
-      ['🔳', '🔳', '🔳', '🔳', '🔳', '🔳'],
-      ['🔳', '🔳', '🔳', '🔳', '🔳', '🔳'],
-      ['🔳', '🔳', '🔳', '🔳', '🔳', '🔳'],
-      ['🔳', '🔳', '🔳', '🔳', '🔳', '🔳']
+      ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+      ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+      ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+      ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+      ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪']
     ]
 
 def winCheck(map):
@@ -67,7 +67,7 @@ def winCheck(map):
             lineSquareCount = 0
             prevSpace = ''
             for space in row:
-                if space == prevSpace and space != '🔳':
+                if space == prevSpace and space != '⚪':
                     lineSquareCount += 1
                     if lineSquareCount >= 3: return True
                     prevSpace = space
@@ -83,15 +83,15 @@ def winCheck(map):
 
 def gameMove(map, move: int, currPlayer: int):
     mapNum = 4
-    playerTypes = ['🟩', '🟥']
+    playerTypes = ['🟢', '🔴']
     moveLocation = map[mapNum][move]
-    if moveLocation == '🔳': 
+    if moveLocation == '⚪': 
         map[mapNum][move] = playerTypes[currPlayer]
     else:
-        while moveLocation in ('🟥', '🟩') and mapNum >= 0:
+        while moveLocation in ('🔴', '🟢') and mapNum >= 0:
             mapNum += -1
             moveLocation = map[mapNum][move]
-            if moveLocation == '🔳':
+            if moveLocation == '⚪':
                 map[mapNum][move] = playerTypes[currPlayer]
                 break
     return map, winCheck(map)
@@ -104,16 +104,17 @@ def mapToMessage(map):
         for pixel in line:
             msgMap = msgMap + pixel
         msgMap = msgMap + "\n"
+    msgMap = f'<:1emoji:954896104221184020><:2emoji:954896104401563658><:3emoji:954896104191832114><:4emoji:954896104271515668><:5emoji:954896104233762896><:6emoji:954896104120529008>\n{msgMap}'
     return msgMap
 
 ## The algorithm used to convert a map to state (described below)
 def mapToStateAlgo(item):
     for char in item:
-        if char == '🔳':
+        if char == '⚪':
             return 1
-        elif char == '🟩':
+        elif char == '🟢':
             return 2
-        elif char == '🟥':
+        elif char == '🔴':
             return 3
 
 ## Convert map from map storage format (list) to trimmed down state so that it can fit
@@ -130,11 +131,11 @@ def mapToState(inputMap):
 ## The algorithm used to convert a state to map (described below)
 def stateToMapAlgo(item):
     if item == 1:
-        return '🔳'
+        return '⚪'
     elif item == 2:
-        return '🟩'
+        return '🟢'
     elif item == 3:
-        return '🟥'
+        return '🔴'
 
 
 ## Convert back from a state to map storage format (list) so that it can be used internally
@@ -193,7 +194,7 @@ def gameToEmbed(map, playerOne: int, playerTwo: int, currPlayer: int, update=1, 
     colour = 5763719
     if currPlayer == 0: colour = 15548997
 
-    content = f"🟥 <@{playerOne}> VS <@{playerTwo}> 🟩"
+    content = f"🔴 <@{playerOne}> VS <@{playerTwo}> 🟢"
     if playerTwo == 0: content = f"<@{playerOne}> VS ?"
 
     msg = Message(
